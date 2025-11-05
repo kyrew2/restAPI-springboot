@@ -5,18 +5,14 @@ import java.util.UUID;
 public class UserEntity {
 
     private UUID id;
+
     private String name;
+
     private String email;
+
     private String password;
+
     private TypeUser type;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public UUID getId() {
         return id;
@@ -24,6 +20,14 @@ public class UserEntity {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -49,4 +53,8 @@ public class UserEntity {
     public void setType(TypeUser type) {
         this.type = type;
     }
+
+
+
+
 }
