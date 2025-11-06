@@ -1,5 +1,7 @@
 package br.edu.atitus.api_example.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.UUID;
 
 public class UserEntity {
@@ -10,6 +12,7 @@ public class UserEntity {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private TypeUser type;
