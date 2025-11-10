@@ -1,7 +1,9 @@
 package br.edu.atitus.api_example.services;
 
 import br.edu.atitus.api_example.entities.UserEntity;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
     public UserEntity save(UserEntity user) throws Exception {
 
