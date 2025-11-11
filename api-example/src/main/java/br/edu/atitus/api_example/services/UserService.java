@@ -1,10 +1,20 @@
 package br.edu.atitus.api_example.services;
 
 import br.edu.atitus.api_example.entities.UserEntity;
+import br.edu.atitus.api_example.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+
+
+    private final UserRepository repository;
+
+    public UserService(UserRepository repository) {
+        super();
+        this.repository = repository;
+    }
+
     public UserEntity save(UserEntity user) throws Exception {
 
         if (user == null){
