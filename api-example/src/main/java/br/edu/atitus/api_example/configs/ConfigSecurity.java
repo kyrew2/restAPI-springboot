@@ -3,7 +3,6 @@ package br.edu.atitus.api_example.configs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,16 +12,26 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ConfigSecurity {
 
     @Bean
-    SecurityFilterChain getSecurityFilter(HttpSecurity http) throws Exception {
-
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.authorizeHttpRequests(auth -> auth.requestMatchers("ws**", "/ws/**").authenticated().anyRequest().permitAll());
+    SecurityFilterChain getSecurityFilter(HttpSecurity http) throws Exception{
+        http.sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Desabilita seções
+                .csrf(csrf -> csrf.disable()) //Desabilita protecao CSRF
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/ws**","/ws/**").authenticated()
+                        .anyRequest().permitAll());
 
         return http.build();
     }
+
     @Bean
-    PasswordEncoder getPasswordEncoder(){
+    PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+
+
+
+
+
 }

@@ -10,11 +10,9 @@ import br.edu.atitus.api_example.entities.UserEntity;
 import br.edu.atitus.api_example.repositories.UserRepository;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService{
 
     private final UserRepository repository;
-
-
     private final PasswordEncoder encoder;
 
     public UserService(UserRepository repository, PasswordEncoder encoder) {
@@ -22,6 +20,7 @@ public class UserService implements UserDetailsService {
         this.repository = repository;
         this.encoder = encoder;
     }
+
     public UserEntity save(UserEntity user) throws Exception {
         if (user == null)
             throw new Exception("Objeto Nulo");
@@ -38,15 +37,11 @@ public class UserService implements UserDetailsService {
                 || user.getPassword().isEmpty()
                 || user.getPassword().length() < 8)
             throw new Exception("Password inválido");
-        //TODO criar hash da senha
 
-        if(repository.existsByEmail(user.getEmail())){
-            throw new Exception("Já existe usuário cadastrado com este email");
-        }
-
-        //TODO validar permissão cadastro Admins
         user.setPassword(encoder.encode(user.getPassword()));
 
+        if (repository.existsByEmail(user.getEmail()))
+            throw new Exception("Já existe usuário cadastrado com este e-mail");
 
         repository.save(user);
 
@@ -55,7 +50,10 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = repository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Não existe usuário com este email."));
+        var user = repository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Não existe usuário com este email"));
+
         return user;
     }
+
 }
