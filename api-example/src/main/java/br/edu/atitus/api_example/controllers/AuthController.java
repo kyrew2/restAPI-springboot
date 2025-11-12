@@ -1,8 +1,8 @@
 package br.edu.atitus.api_example.controllers;
 
+import jakarta.security.auth.message.config.AuthConfig;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,18 +18,19 @@ import br.edu.atitus.api_example.services.UserService;
 @RequestMapping("/auth")
 public class AuthController {
 
-
-    //AuthController DEPENDE deu= um objeto UserService
+    //AuthController DEPENDE de um objeto UserService
     private final UserService service;
+    private final AuthConfig authConfig;
 
     public AuthController(UserService service) {
         super();
         this.service = service;
+        this.authConfig = authConfig;
     }
 
-
     @PostMapping("/signup")
-    public ResponseEntity<UserEntity> postSignup(@RequestBody SignupDTO dto) throws Exception{
+    public ResponseEntity<UserEntity> postSignup(
+            @RequestBody SignupDTO dto) throws Exception{
         UserEntity user = new UserEntity();
         BeanUtils.copyProperties(dto, user);
         user.setType(TypeUser.Common);
@@ -38,10 +39,16 @@ public class AuthController {
 
         return ResponseEntity.status(201).body(user);
     }
+    @PostMapping("/signin")
+    public ResponseEntity<String> postSignin(@RequestBody SignupDTO dto){
+        authConfig.
+        return ResponseEntity.ok("JWT");
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> exceptionHandler(Exception e){
         String message = e.getMessage().replaceAll("\r\n", "");
         return ResponseEntity.badRequest().body(message);
     }
+
 }
