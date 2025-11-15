@@ -27,11 +27,4 @@ public class ConfigSecurity {
     PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-
-
-
-
-
 }
